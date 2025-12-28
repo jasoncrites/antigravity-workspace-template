@@ -72,9 +72,11 @@ class GeminiAgent:
             self.client = _DummyClient()
         else:
             try:
-                self.client = genai.Client(api_key=self.settings.GOOGLE_API_KEY)
+                # Use the smart client getter that falls back to Vertex AI
+                from src.vertex_gemini import get_gemini_client
+                self.client = get_gemini_client()
             except Exception as e:
-                print(f"⚠️ genai client not initialized: {e}")
+                print(f"⚠️ No Gemini client available: {e}")
 
                 class _DummyClientFallback:
                     class _Models:

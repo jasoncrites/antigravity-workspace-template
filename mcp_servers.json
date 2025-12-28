@@ -1,14 +1,25 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "description": "MCP Servers Configuration for Antigravity Agent",
+  "description": "MCP Servers Configuration for Antigravity Agent - GCP Edition",
   "servers": [
+    {
+      "name": "bigquery",
+      "description": "BigQuery database access for analytics and ML data",
+      "transport": "stdio",
+      "command": "uvx",
+      "args": ["mcp-server-bigquery"],
+      "enabled": true,
+      "env": {
+        "GOOGLE_CLOUD_PROJECT": "truckerbooks-mvp-prod"
+      }
+    },
     {
       "name": "filesystem",
       "description": "Access to local filesystem operations",
       "transport": "stdio",
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/tmp"],
-      "enabled": false,
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/home/jasoncrites"],
+      "enabled": true,
       "env": {}
     },
     {
@@ -17,20 +28,9 @@
       "transport": "stdio",
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-github"],
-      "enabled": false,
+      "enabled": true,
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
-      }
-    },
-    {
-      "name": "postgres",
-      "description": "PostgreSQL database access",
-      "transport": "stdio",
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-postgres"],
-      "enabled": false,
-      "env": {
-        "POSTGRES_CONNECTION_STRING": "${DATABASE_URL}"
       }
     },
     {
@@ -50,7 +50,7 @@
       "transport": "stdio",
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-memory"],
-      "enabled": false,
+      "enabled": true,
       "env": {}
     },
     {
@@ -59,26 +59,6 @@
       "transport": "stdio",
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
-      "enabled": false,
-      "env": {}
-    },
-    {
-      "name": "slack",
-      "description": "Slack workspace integration",
-      "transport": "stdio",
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-slack"],
-      "enabled": false,
-      "env": {
-        "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}",
-        "SLACK_TEAM_ID": "${SLACK_TEAM_ID}"
-      }
-    },
-    {
-      "name": "custom-http",
-      "description": "Example HTTP/Streamable HTTP server",
-      "transport": "http",
-      "url": "http://localhost:8000/mcp",
       "enabled": false,
       "env": {}
     }
